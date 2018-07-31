@@ -3,15 +3,28 @@
 
 
 # Setup Info
-* Builds the Jenkins Container off the most recent official jenkins image 
+* Builds the Jenkins Container off our Dockerfile, which add .NET core
 * Creates/Maps the Docker Volumes "jenkins-data" and maps to the jenkins home directory.
   * https://docs.docker.com/storage/bind-mounts/
 *  Runs the container as a daemon with the name "jenkins"
 
-docker run -d -p 49001:8080 -v jenkins-data:/var/jenkins_home --name jenkins jenkins
+docker build -t jenkins-docker-master .
+
+docker run -d -p 49001:8080 -v jenkins-data:/var/jenkins_home --name jenkins-master jenkins-docker-master
 
 Upon installation Jenkins will ask for an initial setup password which can be located in the logs:
 docker logs jenkins
+
+# View Installed Plugins
+Visit the following URL: <localhost:port>/scripts
+
+**Run the following**
+Jenkins.instance.pluginManager.plugins.each{
+  plugin ->
+
+    println ("${plugin.getShortName()}")
+
+}
 
 # Docker Commands
 ### **Using a Dockerfile**
