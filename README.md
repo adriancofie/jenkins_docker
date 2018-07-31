@@ -1,4 +1,10 @@
-# jenkins_docker
+# Jenkins Docker
+
+Use to create a custom Jenkins master image with Docker. 
+
+* Adds .NET CORE 2.0 
+* Pre-installs a host of Jenkins Plugins
+* Contains the base for 2 Jenkins Pipeline alternatives
 
 
 
@@ -19,12 +25,13 @@ docker logs jenkins
 Visit the following URL: <localhost:port>/scripts
 
 **Run the following**
+```
 Jenkins.instance.pluginManager.plugins.each{
   plugin ->
 
     println ("${plugin.getShortName()}")
-
 }
+```
 
 # Docker Commands
 ### **Using a Dockerfile**
