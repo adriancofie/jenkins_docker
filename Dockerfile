@@ -14,7 +14,7 @@ USER root
 RUN uname -a && cat /etc/*release
 
 # Based on instructiions at https://docs.microsoft.com/en-us/dotnet/core/linux-prerequisites?tabs=netcore2x
-# Install depency for dotnet core 2.
+# Install dependencoes for dotnet core 2.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     curl libunwind8 gettext apt-transport-https && \

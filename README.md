@@ -2,9 +2,8 @@
 
 Use to create a custom Jenkins master image with Docker. 
 
-* Adds .NET CORE 2.0 
+* Adds .NET CORE 2.x to base Jenkins image
 * Pre-installs a host of Jenkins Plugins
-* Contains the base for 2 Jenkins Pipeline alternatives
 * The root Jenkinsfile was tested while building the ASP.NET app located: https://github.com/adriancofie/aspdotnet_app
   That repository contains an application which defines its own Dockerfile, which is used to setup a .NET context from which to run.
 *  An alternative Jenkinsfile is located in the Otherjenkinsfile directory. It instead builds a .NET application within the context of this containers .NET installation. (🛑 ** THIS commited version has not been tested!!**)
@@ -110,6 +109,6 @@ Jenkins.instance.pluginManager.plugins.each{
 }
 ```
 
-#MISC
+# MISC
 Upon installation Jenkins may ask for an initial setup password which can be located in the logs:
 docker logs jenkins
