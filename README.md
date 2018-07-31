@@ -1,4 +1,10 @@
-# jenkins_docker
+# Jenkins Docker
+
+Use to create a custom Jenkins master image with Docker. 
+
+* Adds .NET CORE 2.0 
+* Pre-installs a host of Jenkins Plugins
+* Contains the base for 2 Jenkins Pipeline alternatives
 
 
 
