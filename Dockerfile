@@ -44,6 +44,11 @@ RUN apt-get install -y dotnet-sdk-2.0.0 && \
     export PATH=$PATH:$HOME/dotnet && \
     dotnet --version
 
+# Add jenkins to the host docker group
+# Mac work around, may need to be docker otherwise : https://github.com/jenkinsci/docker/issues/263
+RUN usermod -aG staff jenkins
+
+
 # Switch to Jenkins User
 USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
