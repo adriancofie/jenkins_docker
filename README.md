@@ -10,7 +10,7 @@
 
 docker build -t jenkins-docker-master .
 
-docker run -d -p 49001:8080 -v jenkins-data:/var/jenkins_home --name jenkins-master jenkins-docker-master
+docker run --rm -d -p 49001:8080 -v jenkins-data:/var/jenkins_home --name jenkins-master jenkins-docker-master
 
 Upon installation Jenkins will ask for an initial setup password which can be located in the logs:
 docker logs jenkins
