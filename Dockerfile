@@ -23,6 +23,22 @@ RUN apt-get update \
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/dotnetdev.list' && \
     apt-get update
 
+
+# Install Docker Client
+ RUN apt-get update && \
+     apt-get -y install apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common && \
+     curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
+     add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+   $(lsb_release -cs) \
+   stable" && \
+apt-get update && \
+apt-get -y install docker-ce
+
 # Install the .Net Core framework, set the path, and show the version of core installed.
 RUN apt-get install -y dotnet-sdk-2.0.0 && \
     export PATH=$PATH:$HOME/dotnet && \

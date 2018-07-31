@@ -20,7 +20,7 @@ pipeline {
 
         stage("Build Docker Image"){
             steps {	
-                sh "docker build -t reponame/myApplication:latest ."
+                sh "docker build -t reponame/my_application:latest ."
             }
         }	
 
@@ -38,7 +38,7 @@ pipeline {
     // Use the -H flag to specify a remote env 
     stage("Deploy to ENV ") {
         steps {
-            sh "docker run -d --rm -p 9090:8080 --name myApplication reponame/myApplication"
+            sh "docker run -d --rm -p 9090:8080 --name myApplication reponame/my_application"
         }
     }
 
