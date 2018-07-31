@@ -11,10 +11,10 @@ pipeline {
     // Gets the Application Code , which has its own Docker File 
         stage ('Checkout Latest Code') {
                 // git url: 'https://github.com/adriancofie/aspdotnet_app.git'
-	steps{
-        git branch: 'master', url: 'https://github.com/adriancofie/aspdotnet_app.git'
+            steps{
+                git branch: 'master', url: 'https://github.com/adriancofie/aspdotnet_app.git'
+            }
         }
-}
 
     // Build the Docker image based on the Dockerfile within the checked out code. 
 
@@ -57,7 +57,7 @@ pipeline {
     post {
         always {            
 		 // sh "docker stop myApplication"
-         // cleanWs()
+         cleanWs()
         }
     }   
 
