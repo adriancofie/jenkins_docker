@@ -25,12 +25,13 @@ docker logs jenkins
 Visit the following URL: <localhost:port>/scripts
 
 **Run the following**
+```
 Jenkins.instance.pluginManager.plugins.each{
   plugin ->
 
     println ("${plugin.getShortName()}")
-
 }
+```
 
 # Docker Commands
 ### **Using a Dockerfile**
