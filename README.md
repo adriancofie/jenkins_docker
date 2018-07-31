@@ -5,33 +5,45 @@ Use to create a custom Jenkins master image with Docker.
 * Adds .NET CORE 2.0 
 * Pre-installs a host of Jenkins Plugins
 * Contains the base for 2 Jenkins Pipeline alternatives
+* The root Jenkinsfile was tested while building the ASP.NET app located: https://github.com/adriancofie/aspdotnet_app
+  That repository contains an application which defines its own Dockerfile, which is used to setup a .NET context from which to run.
+*  An alternative Jenkinsfile is located in the Otherjenkinsfile directory. It instead builds a .NET application within the context of this containers .NET installation. (🛑 ** THIS commited version has not been tested!!**)
 
 
 
 # Setup Info
+
+## Description 
 * Builds the Jenkins Container off our Dockerfile, which add .NET core
 * Creates/Maps the Docker Volumes "jenkins-data" and maps to the jenkins home directory.
   * https://docs.docker.com/storage/bind-mounts/
-*  Runs the container as a daemon with the name "jenkins"
+*  Runs the container as a daemon with the name "jenkins-master"
+* Jenkins will be made available at localhost:49001
 
+* NOTE: Docker-in-Docker is not recommended therefore this binds the host Docker to the container.
+  * Due to MAC user-group oddities, using ther -u flag to explicitly use root as the default user
+* NOTE:  Ideally docker RUN should use the -P flag in combination with the Dockerfile EXPOSE command in order to auto-bind the container ports to the host. 
+
+1)
+```
 docker build -t jenkins-docker-master .
-
-docker run --rm -d -p 49001:8080 -v jenkins-data:/var/jenkins_home --name jenkins-master jenkins-docker-master
-
-Upon installation Jenkins will ask for an initial setup password which can be located in the logs:
-docker logs jenkins
-
-# View Installed Plugins
-Visit the following URL: <localhost:port>/scripts
-
-**Run the following**
 ```
-Jenkins.instance.pluginManager.plugins.each{
-  plugin ->
 
-    println ("${plugin.getShortName()}")
-}
+
+2) 
 ```
+docker run -u root --rm -d -p 49001:8080  -v new-jenkins-data:/var/jenkins_home   -v /var/run/docker.sock:/var/run/docker.sock --name jenkins-master jenkins-docker-master
+```
+
+
+3) Proceed to setup a Pipline project.  On the following screen in the "Pipeline"  section under the Definition drop down select "Pipeline script from SCM". 
+
+4) Under SCM: Paste the git uri of therepo, in this instance : https://github.com/adriancofie/aspdotnet_app.git
+
+
+5) Click save.  You're now ready to run a build. Once run you should be able to visit the application from your host machine at localhost:9090.  To verify port mappings run "docker ps" 
+
+
 
 # Docker Commands
 ### **Using a Dockerfile**
@@ -83,3 +95,21 @@ docker run -p 8080:8080 -p 50000:50000 -it jenkins bin/bash
 
 ### List Docker Volumes
 docker volume ls
+
+# View Installed Plugins
+
+Visit the following URL: <localhost:port>/scripts
+
+Run the following
+
+```
+Jenkins.instance.pluginManager.plugins.each{
+  plugin ->
+
+    println ("${plugin.getShortName()}")
+}
+```
+
+#MISC
+Upon installation Jenkins may ask for an initial setup password which can be located in the logs:
+docker logs jenkins
