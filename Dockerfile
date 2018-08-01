@@ -1,12 +1,10 @@
 FROM jenkins/jenkins:lts
 
-# Get rid of installation password setup
-
+# Get rid o initial installation password prompt
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
 # Switch to root to install .NET Core SDK
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
-#RUN /usr/local/bin/install-plugins.sh docker-plugin
 
 USER root
 
@@ -22,7 +20,6 @@ RUN apt-get update \
     mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg && \
     sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/dotnetdev.list' && \
     apt-get update
-
 
 # Install Docker Client
  RUN apt-get update && \
@@ -44,13 +41,13 @@ RUN apt-get install -y dotnet-sdk-2.0.0 && \
     export PATH=$PATH:$HOME/dotnet && \
     dotnet --version
 
-# Add jenkins to the host docker group
-# Mac work around, may need to be docker otherwise : https://github.com/jenkinsci/docker/issues/263
+# Add Jenkins to the host docker group
+# Mac work around, may need to be "docker" group otherwise : https://github.com/jenkinsci/docker/issues/263
 RUN usermod -aG staff jenkins
 
-
-# Switch to Jenkins User
 USER jenkins
+
+# Install Jenkins plugins 
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
