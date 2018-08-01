@@ -38,7 +38,7 @@ pipeline {
     // Use the -H flag to specify a remote env 
     stage("Deploy to ENV ") {
         steps {
-            sh "docker run -d --rm -p 9090:80 --name my_application reponame/my_application"
+            sh "docker run -d --rm -p 9090:80 --name myApplication reponame/my_application"
         }
     }
 
@@ -58,7 +58,7 @@ pipeline {
 
     post {
         always {            
-		  sh "docker stop my_pplication"
+		  sh "docker stop myApplication"
 
         // Clear the Jenkins workspace (build artifacts)
          cleanWs()
