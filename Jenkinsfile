@@ -46,7 +46,7 @@ pipeline {
         stage("Acceptance test") {
             steps{
                 sleep 60   //docker run-d is asynchronus make sure the service is already up by waiting
-                sh "./acceptance_test.sh"
+                sh 'docker exec myApplication /bin/bash -c "./acceptance_test.sh"'
 
                 // Run the application for 5 minutes before proceeding / shutting down
                 sleep 300
